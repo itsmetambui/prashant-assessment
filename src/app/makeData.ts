@@ -1,4 +1,4 @@
-import { build, fake, sequence } from "test-data-bot";
+import { build, fake } from "test-data-bot";
 
 const adorableAvatarApi = "https://i.pravatar.cc";
 
@@ -21,7 +21,7 @@ const range = (len) => {
   return arr;
 };
 
-export default function makeData(...lens) {
+export default function makeData(...lens: [number]): [Student] {
   const makeDataLevel = (depth = 0) => {
     const len = lens[depth];
     return range(len).map((d) => {
