@@ -1580,6 +1580,11 @@ crypto-browserify@3.12.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-extra@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/crypto-extra/-/crypto-extra-1.0.1.tgz#91d9e3d8d35f9a16d548c073c31b147f34eab11e"
+  integrity sha512-EDJ07p6UDdyX+7GL6Bb6FqCuCHY34GuII9esE/xXZtW7tlB+A7MYT9O/c1M/ov2aGTdwvw0b3z5OcO50zYBG5Q==
+
 css-color-keywords@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/css-color-keywords/-/css-color-keywords-1.0.0.tgz#fea2616dc676b2962686b3af8dbdbe180b244e05"
@@ -1939,6 +1944,11 @@ expect@^27.4.2:
     jest-matcher-utils "^27.4.2"
     jest-message-util "^27.4.2"
     jest-regex-util "^27.4.0"
+
+faker@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"
+  integrity sha1-HkW7vsxndLPBlfrSg1EJxtdIzD8=
 
 fast-json-stable-stringify@2.x, fast-json-stable-stringify@^2.0.0:
   version "2.1.0"
@@ -3166,6 +3176,13 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+namor@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/namor/-/namor-2.0.3.tgz#a42c5e76f6170f9e2fc4ddfc6d403a881f59350d"
+  integrity sha512-BDDfplXUwxcEK1QAwL0k82VyqYyAa3xdQv24ijfLc+5Zqdm3IyfAIBTCRWhKPbbLncmdvG/vCr9JhrVH9FGpNQ==
+  dependencies:
+    crypto-extra "1.0.1"
+
 nanoid@^3.1.23, nanoid@^3.1.30:
   version "3.1.30"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
@@ -4088,6 +4105,13 @@ terminal-link@^2.0.0:
   dependencies:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
+
+test-data-bot@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/test-data-bot/-/test-data-bot-0.8.0.tgz#6ad904cd450e926c2113e38798e3fe4c5cb2066a"
+  integrity sha512-IFeWrb8PCV1sEyzYf1dgtRciBe3tw1Mr9Wj2o/ldEXofXma3hZiFCeBynb3DnVWxk6r1u/149qQ1it8ZzUTI0A==
+  dependencies:
+    faker "4.1.0"
 
 test-exclude@^6.0.0:
   version "6.0.0"
