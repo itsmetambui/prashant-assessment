@@ -105,6 +105,8 @@ const IndexPage: NextPage = () => {
       getNextPageParam: (lastGroup, allGroups) => {
         return allGroups.length + 1 || null;
       },
+      enabled: debouncedSearchTerm === "" || debouncedSearchTerm.length > 2,
+      keepPreviousData: true,
     }
   );
 
@@ -134,13 +136,15 @@ const IndexPage: NextPage = () => {
     []
   );
 
-  const row =
-    data.pages.reduce((acc, cur) => [...acc, ...cur.students], []) || [];
+  const row = React.useMemo(
+    () => data.pages.reduce((acc, cur) => [...acc, ...cur.students], []) || [],
+    [data]
+  );
 
   return (
     <Container>
       <Input
-        placeholder="Search"
+        placeholder="Start searching by enter a minimum 3 characters"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <Table
