@@ -1,37 +1,45 @@
 import type { NextPage } from "next";
 import React from "react";
 import { useInfiniteQuery } from "react-query";
+import axios from "axios";
+import styled from "styled-components";
 
-import makeData from "../app/makeData";
 import Table from "../components/Table";
+import useDebounce from "../hooks/useDebounce";
+
+const Container = styled.div`
+  padding: 1rem;
+`;
+
+const Input = styled.input`
+  padding: 8px 12px;
+  margin-bottom: 1rem;
+`;
 
 const IndexPage: NextPage = () => {
-  const serverData = React.useMemo(() => makeData(1000), []);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const [{ name }, setFilterParams] = React.useState({
-    name: "",
-  });
-
-  const fetchStudents = async (pg: number, name: string, limit: number) => {
+  const fetchStudents = async (
+    pg: number,
+    searchTerm: string,
+    limit: number
+  ) => {
     const offset = (pg - 1) * limit;
-    // const res = await axios.get(
-    //   `/posts?folder=${id}&offset=${offset}&limit=${limit}`
-    // );
-    // return res.data;
-    console.log(offset, limit);
-    return serverData.slice(offset, offset + limit);
+    const res = await axios.get(
+      `/students?searchTerm=${searchTerm}&skip=${offset}&limit=${limit}`
+    );
+    return res.data;
   };
 
   const {
     fetchNextPage,
     hasNextPage,
-    isLoading,
-    isError,
-    status,
+    isFetching,
     data = { pages: [] },
   } = useInfiniteQuery(
-    ["students", { name }],
-    ({ pageParam = 1 }) => fetchStudents(pageParam, name, 20),
+    ["students", { searchTerm: debouncedSearchTerm }],
+    ({ pageParam = 1 }) => fetchStudents(pageParam, debouncedSearchTerm, 20),
     {
       getNextPageParam: (lastGroup, allGroups) => {
         return allGroups.length + 1 || null;
@@ -63,17 +71,23 @@ const IndexPage: NextPage = () => {
     []
   );
 
-  const row = data.pages.reduce((acc, cur) => [...acc, ...cur], []) || [];
+  const row =
+    data.pages.reduce((acc, cur) => [...acc, ...cur.students], []) || [];
 
   return (
-    <div>
+    <Container>
+      <Input
+        placeholder="Search"
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
       <Table
         columns={columns}
         data={row}
         update={fetchNextPage}
         hasNextPage={hasNextPage}
       />
-    </div>
+      {isFetching && <p>Loading...</p>}
+    </Container>
   );
 };
 
