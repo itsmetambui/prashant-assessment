@@ -2,6 +2,13 @@
 
 Create a `React(v17)` application using `Typescript(v4)` which shows a tables with infinite-scrolling and a search bar.
 
+## Effort
+- Generate mock data logic + setup mock: **~2.5hr**.
+  - It's been awhile since I used axios-mock-adapter so I stucked for sometime to make the matching works with ```mock.onGet(new RegExp(`/students/*`))``` instead of just ```mock.onGet(`/students`))```
+- Virtualized table with inifinity scroll: **~2hr**.
+  - I used `react-table`, `react-window` for the table and `react-query` for server data management.
+- Search bar + debounce: **~30m**.
+- Student dialog: **~1hr**.
 ## Technical specifications:
 
 - Whole application will use **react hooks** only, i.e. no class component should be used.
