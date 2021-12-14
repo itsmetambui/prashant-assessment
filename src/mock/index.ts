@@ -3,6 +3,7 @@ import mock from "./adapter";
 
 const totalRecords = 1000;
 const data = makeData(totalRecords);
+console.log(data);
 
 mock.onGet(new RegExp(`/students/*`)).reply(function (config) {
   const urlSearchParams = new URLSearchParams(config.url.split("?")[1]);

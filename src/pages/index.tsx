@@ -9,7 +9,7 @@ import Modal from "styled-react-modal";
 import Table from "../components/Table";
 import useDebounce from "../hooks/useDebounce";
 import { Column } from "react-table";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/store";
 import {
   select,
   selectCurrentStudent,
@@ -27,13 +27,38 @@ const Input = styled.input`
 `;
 
 const StyledModal = Modal.styled`
-  width: 20rem;
-  height: 20rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width:30rem;
+  height: 25rem;
+  padding: 2rem;
   background-color: white;
-  transition : all 0.3s ease-in-out;`;
+  transition : all 0.3s ease-in-out;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+const ModalHead = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const ModalBody = styled.div`
+  padding: 0 1rem 0 3rem;
+  flex: 1;
+`;
+
+const Mark = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const SubjectTitle = styled.p`
+  font-size: 12px;
+  color: gray;
+`;
 
 const IndexPage: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -127,8 +152,45 @@ const IndexPage: NextPage = () => {
         onBackgroundClick={toggleModal}
         onEscapeKeydown={toggleModal}
       >
-        <span>I am {selectedStudent.value?.name}</span>
-        <button onClick={toggleModal}>Close me</button>
+        <ModalHead>
+          <Image
+            src={selectedStudent.value?.avatarURL}
+            height={200}
+            width={200}
+            priority
+          />
+          <div>
+            <p>
+              <strong>Name:</strong> {selectedStudent.value?.name}
+            </p>
+            <p>
+              <strong>Lectures Attended:</strong>{" "}
+              {selectedStudent.value?.lecturesAttended}
+            </p>
+            <p>
+              <strong>Total Lectures:</strong>{" "}
+              {selectedStudent.value?.totalLectures}
+            </p>
+          </div>
+        </ModalHead>
+        <ModalBody>
+          {Object.keys(selectedStudent.value?.marks || {}).map((code) => {
+            const mark = selectedStudent.value?.marks[code];
+
+            return (
+              <Mark key={`${selectedStudent.value?.name}-${code}`}>
+                <div>
+                  <p>{code}</p>
+                  <SubjectTitle>{mark.subjectTitle}</SubjectTitle>
+                </div>
+
+                <p>
+                  {mark.markesObtained}/{mark.totalMarks}
+                </p>
+              </Mark>
+            );
+          })}
+        </ModalBody>
       </StyledModal>
     </Container>
   );
