@@ -1,23 +1,78 @@
-# Redux Toolkit TypeScript Example
+# Frontend Task - React, Typescript
 
-This example shows how to integrate Next.js with [Redux Toolkit](https://redux-toolkit.js.org).
+Create a `React(v17)` application using `Typescript(v4)` which shows a tables with infinite-scrolling and a search bar.
 
-The **Redux Toolkit** is a standardized way to write Redux logic (create actions and reducers, setup the store with some default middlewares like redux devtools extension). This example demonstrates each of these features with Next.js
+## Technical specifications:
 
-## Deploy your own
+- Whole application will use **react hooks** only, i.e. no class component should be used.
+- For styling: you can use `SCSS`, `styled-components` or `JSS`.
+- Use **redux** for application global state management
+  - [Optional] You can use [redux-saga](https://github.com/redux-saga/redux-saga) as middleware.
+  - [Optional] To reduce redux boilerplate code you can use [redux-toolkit](https://github.com/reduxjs/redux-toolkit).
+- Use **axios** for server api calls.
+- Create **API mocks**, you can use [axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter) or any library of your choice or even create your own.
+- Implement **infinite scrolling** in the table:
+  - Suppose total items that could be fetched from server is 1000.
+  - Then fetch only 20 items in a single request.
+  - Further data should be fetched only when user scrolls down.
+- Input to _search-bar_ will send request to server, minimum 3 characters are required to send a server request.
+- Try to reduce server request while user is typing in _search-bar_
+- Clicking on any table-row will open a dialog which will show the detailed contents of that table row.
+- Handle loading states.
+- Handle **API errors** like `401` and `403` HTTP status codes
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+## API specifications
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-redux&project-name=with-redux&repository-name=with-redux)
+Create an API mocker with following specifications:
 
-## How to use
+```HTTP
+GET /students?searchTerm=<student-name>&limit=20&skip=20 HTTP/1.1
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+Response:
 
-```bash
-npx create-next-app --example with-redux with-redux-app
-# or
-yarn create next-app --example with-redux with-redux-app
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "totalRecords": 1000,
+    "students": [
+        {
+            "name": "<student name>",
+            "avatarURL": "<user avatar url>",
+            "lecturesAttended": 10,
+            "totalLectures": 30,
+            "marks": {
+                "<subject-code>": {
+                    "subjectTitle": "Introduction to mathematics",
+                    "totalMarks": 100,
+                    "markesObtained": 56
+                },
+                # <subject-code> is a dynamic key
+            },
+        },
+        # remaining 19 items...
+    ]
+}
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Example marks object to explain the `<subject-code>` dynamic key
+
+```
+{
+    ...
+    "marks": {
+        "mth101": {
+            "subjectTitle": "Introduction to mathematics",
+            "totalMarks": 100,
+            "markesObtained": 56
+        },
+        "eng112": {
+            "subjectTitle": "English diagnostics",
+            "totalMarks": 100,
+            "markesObtained": 76
+        }
+    }
+}
+```
+
+> Notes: All query parameters are optional.
