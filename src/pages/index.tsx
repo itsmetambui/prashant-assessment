@@ -26,6 +26,10 @@ const Input = styled.input`
   border: 1px solid black;
 `;
 
+const Error = styled.p`
+  color: red;
+`;
+
 const StyledModal = Modal.styled`
   width:30rem;
   height: 25rem;
@@ -93,6 +97,7 @@ const IndexPage: NextPage = () => {
     hasNextPage,
     isFetching,
     data = { pages: [] },
+    error,
   } = useInfiniteQuery(
     ["students", { searchTerm: debouncedSearchTerm }],
     ({ pageParam = 1 }) => fetchStudents(pageParam, debouncedSearchTerm, 20),
@@ -146,6 +151,7 @@ const IndexPage: NextPage = () => {
         onRowClick={handleRowClick}
       />
       {isFetching && <p>Loading...</p>}
+      {error && <Error>{error}</Error>}
 
       <StyledModal
         isOpen={isOpen}
