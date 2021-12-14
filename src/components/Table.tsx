@@ -1,5 +1,5 @@
 import React from "react";
-import { useTable, useBlockLayout } from "react-table";
+import { useTable, useBlockLayout, Column } from "react-table";
 import { FixedSizeList } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
 import styled from "styled-components";
@@ -21,10 +21,26 @@ const Styles = styled.div`
         border-right: 1px solid black;
       }
     }
+
+    .td:hover {
+      cursor: pointer;
+    }
   }
 `;
 
-export default function Table({ columns, data, update, hasNextPage }) {
+export default function Table({
+  columns,
+  data,
+  loadMoreItems,
+  hasNextPage,
+  onRowClick,
+}: {
+  columns: Column<Student>[];
+  data: Student[];
+  loadMoreItems: () => void;
+  hasNextPage: boolean;
+  onRowClick?: (rowData: Student) => void;
+}) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -32,7 +48,7 @@ export default function Table({ columns, data, update, hasNextPage }) {
     rows,
     prepareRow,
     totalColumnsWidth,
-  } = useTable(
+  } = useTable<Student>(
     {
       columns,
       data,
@@ -52,6 +68,7 @@ export default function Table({ columns, data, update, hasNextPage }) {
             style,
           })}
           className="tr"
+          onClick={() => onRowClick(row.original)}
         >
           {!isItemLoaded(index) && <p>Loading...</p>}
           {isItemLoaded(index) &&
@@ -87,7 +104,7 @@ export default function Table({ columns, data, update, hasNextPage }) {
           <InfiniteLoader
             isItemLoaded={isItemLoaded}
             itemCount={1000}
-            loadMoreItems={update}
+            loadMoreItems={loadMoreItems}
           >
             {({ onItemsRendered, ref }) => (
               <FixedSizeList

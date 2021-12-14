@@ -1,10 +1,10 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
-import counterReducer from "../features/counter/counterSlice";
+import selectedStudentReducers from "../features/counter/selectedStudentSlice";
 
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer },
+    reducer: { selectedStudent: selectedStudentReducers },
   });
 }
 
