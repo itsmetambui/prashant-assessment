@@ -3,6 +3,7 @@ import React from "react";
 import { useInfiniteQuery } from "react-query";
 import axios from "axios";
 import styled from "styled-components";
+import Image from "next/image";
 
 import Table from "../components/Table";
 import useDebounce from "../hooks/useDebounce";
@@ -14,6 +15,7 @@ const Container = styled.div`
 const Input = styled.input`
   padding: 8px 12px;
   margin-bottom: 1rem;
+  width: 300px;
 `;
 
 const IndexPage: NextPage = () => {
@@ -52,7 +54,9 @@ const IndexPage: NextPage = () => {
       {
         Header: "Avatar",
         accessor: "avatarURL",
-        width: 400,
+        Cell: ({ cell: { value } }) => (
+          <Image src={value} width={60} height={60} priority />
+        ),
       },
       {
         Header: "Name",

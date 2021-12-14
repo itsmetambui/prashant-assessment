@@ -91,9 +91,9 @@ export default function Table({ columns, data, update, hasNextPage }) {
           >
             {({ onItemsRendered, ref }) => (
               <FixedSizeList
-                height={400}
+                height={600}
                 itemCount={rows.length}
-                itemSize={35}
+                itemSize={80}
                 width={totalColumnsWidth + 16}
                 ref={ref}
                 onItemsRendered={onItemsRendered}
